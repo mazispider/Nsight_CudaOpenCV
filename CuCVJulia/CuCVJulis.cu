@@ -102,13 +102,16 @@ void julia(cv::Mat& output)
 	SAFE_CALL(cudaFree(d_output), "CUDA Free Failed");
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	cudaEvent_t start, stop;
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
 
-
+	if(argc<2){
+		std::cout << "Please Enter JPG Save File Location" << std::endl;
+		return -1;
+	}
 
 	//Create output image
 	cv::Mat output(DIM, DIM, CV_8UC3);
@@ -124,7 +127,7 @@ int main()
 	//Show the input and output
 	//cv::imshow("Input", input);
 	//cv::imshow("Output", output);
-	cv::imwrite("./julia.jpg", output);
+	cv::imwrite(std::string(argv[1]), output);
 	//Wait for key press
 	cv::waitKey();
 	std::cin.get();
